@@ -10,18 +10,18 @@ using UnityEngine.UI;
 public class boardController : board
 {
     public static boardController instance2;
-    public TileClass[,] tileArray;
-    public TileClass oldSelected;
-    public Vector2[] dirRay = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    protected TileClass[,] tileArray;
+    protected TileClass oldSelected;
+    protected Vector2[] dirRay;
 
-    public int score;
+    protected int score;
     public Text scoreText;
     //scoreText.text = "" + score;
 
-    public bool isFindMatch = false;
-    public bool isShift = false;
-    public bool isSearchEmptyTile = false;
-    public bool isFive = false;
+    protected bool isFindMatch = false;
+    protected bool isShift = false;
+    protected bool isSearchEmptyTile = false;
+    protected bool isFive = false;
 
     public boardController(int xSize, int ySize, List<Sprite> tileSprite) {
         this.xSize = xSize;
@@ -39,10 +39,13 @@ public class boardController : board
 } 
 
 
-    private void Awake() {
+    void Awake() {
         instance2 = this;
-    } 
+    }
 
+    void Start() {
+        dirRay = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    }
     
     void Update() {
         

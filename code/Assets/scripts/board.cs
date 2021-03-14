@@ -7,11 +7,11 @@ public class board : MonoBehaviour
 {
     public static board instance;
 
-    public int xSize, ySize;
-    public TileClass tileGo;
-    public List<Sprite> tileSprite = new List<Sprite>();
+    protected int xSize, ySize;
+    protected TileClass tileGo;
+    protected List<Sprite> tileSprite = new List<Sprite>();
 
-    public void Awake() {
+    void Awake() {
         instance = this;
     }
 

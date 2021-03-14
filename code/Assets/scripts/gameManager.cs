@@ -9,19 +9,16 @@ public class gameManager : MonoBehaviour
     public static gameManager instance3;
 
     [Header("Настройки игрового поля")]
-    public int xSize;
-    public int ySize;
     public TileClass tileGo;
     public List<Sprite> tileSprite;
     public GameObject startMenu;
 
 
 
-    private void Awake()
+    void Awake()
     {
         instance3 = this;
     }
-
 
 
     public void StartGame(int size) {
@@ -34,6 +31,4 @@ public class gameManager : MonoBehaviour
                ), size, size, tileSprite);
         startMenu.SetActive(false);
     }
-
-    
 }
