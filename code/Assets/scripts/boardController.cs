@@ -188,7 +188,7 @@ public class boardController : board
             for (int i = 0; i < cashFindSprite.Count; i++) {
                
                 cashFindSprite[i].spriteRenderer.sprite = null;
-                addScore(1);
+               // addScore(1);
 
                 if (cashFindSprite.Count >= 4)
                 {
@@ -227,8 +227,7 @@ public class boardController : board
             isFive = false;
         }
 
-        if (isFindMatch)
-        {
+        if (isFindMatch) {
             //Переключаем эту ф-цию что бы не срабатывала каждый раз при свапе
             isFindMatch = false;
             //удаляться только соседи главного тайла, нужно удалить так же сам тайл
@@ -238,8 +237,10 @@ public class boardController : board
         }
 
         for (int i = 0; i < cashFindSprite.Count; i++) {
-            cashFindSprite[i].spriteRenderer.sprite = null;
-            addScore(1);
+            
+                cashFindSprite[i].spriteRenderer.sprite = null;
+               // addScore(1);
+            
 
         }
     }
@@ -276,6 +277,7 @@ public class boardController : board
                 //Передаем в функцию ShiftTileDown координаты тайла
                 if (gameBoard[x,y].isEmpty) {
                     ShiftTileDown(x, y);
+                    addScore(1);
                     break;
                 }
 
@@ -288,8 +290,7 @@ public class boardController : board
 
         //Еще раз нужно пройтись по каждому тайлу на доске и делаеем проверку на совпадения того блока который опущен
         for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++)
-            {
+            for (int y = 0; y < ySize; y++) {
                 FinAllMatch(gameBoard[x, y]);
             }
         }
