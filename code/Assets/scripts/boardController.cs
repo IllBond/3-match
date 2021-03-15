@@ -205,29 +205,42 @@ public class boardController : board
     public void DeleteOneColor(TileClass tile) {
        List<TileClass> cashFindSprite = new List<TileClass>();
 
+
+        //Если удаление состоялось то isFindMatch true 
+
+
+
         if (isFive) {
            for (int x = 0; x < xSize; x++) {
                 for (int y = 0; y < ySize; y++) {
                     if (gameBoard[x, y].spriteRenderer.sprite == tile.spriteRenderer.sprite) {
-                        cashFindSprite.Add(gameBoard[x, y]);
-
+                        if(!AdjacentTiles().Contains(gameBoard[x, y])){
+                            cashFindSprite.Add(gameBoard[x, y]);
+                        }
+                        
                         if (x == xSize-1 && y == ySize-1) {
-
                             isFindMatch = false;
                         }
                     }
                 }
+            }
+            isFive = false;
+        }
 
-               for (int i = 0; i < cashFindSprite.Count; i++) {
-                    cashFindSprite[i].spriteRenderer.sprite = null;
-                    
-               }
+        if (isFindMatch)
+        {
+            //Переключаем эту ф-цию что бы не срабатывала каждый раз при свапе
+            isFindMatch = false;
+            //удаляться только соседи главного тайла, нужно удалить так же сам тайл
+            cashFindSprite.Add(tile);
+            //Запуск поиска пустых полей
+            isSearchEmptyTile = true;
+        }
 
-                    //запускаем поиск пустых тайлов
-                    //isFindMatch = true;
-           }
-        isFive = false;
-        addScore(5);
+        for (int i = 0; i < cashFindSprite.Count; i++) {
+            cashFindSprite[i].spriteRenderer.sprite = null;
+            addScore(1);
+
         }
     }
 
@@ -242,22 +255,6 @@ public class boardController : board
         DeleteSprite(tile, new Vector2[2] { Vector2.left, Vector2.right }); //проверка по вертикали
         DeleteSprite(tile, new Vector2[2] { Vector2.up, Vector2.down }); // првоерка по горизонтали
         DeleteOneColor(tile); // доп проверка если собрано 5 в ряд, то дает бонус и удаляет блоки такого же цвета
-
-
-        //Если удаление состоялось то isFindMatch true это говорит что у нас есть пустые тайлы
-        if (isFindMatch) {
-            //Переключаем эту ф-цию что бы не срабатывала каждый раз при свапе
-            isFindMatch = false;
-            //удаляться только соседи главного тайла, нужно удалить так же сам тайл
-            
-                tile.spriteRenderer.sprite = null;
-                addScore(1);
-            
-            
-
-            //Запуск поиска пустых полей
-            isSearchEmptyTile = true;
-        }
     }
 
 
@@ -270,9 +267,9 @@ public class boardController : board
     //Поиск пустых тайлов
     private void SearchEmptyTile() {
         List<Sprite> tileSprite3 = tileSprite;
-        for (int x = 0; x < xSize; x++)
+        for (int x = xSize-1; x >= 0; x--)
         {
-            for (int y = 0; y < ySize; y++)
+            for (int y = ySize-1; y >= 0; y--)
             {
 
                 //Если спрайта у тайла нет то смещаем тайл вниз и останавливаем цикл. Он продолжится дальше
@@ -289,9 +286,8 @@ public class boardController : board
             }
         }
 
-        //Еще раз нужно пройтись по каждому тайлу на доске и делаеем проверку на совпадения
-        for (int x = 0; x < xSize; x++)
-        {
+        //Еще раз нужно пройтись по каждому тайлу на доске и делаеем проверку на совпадения того блока который опущен
+        for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++)
             {
                 FinAllMatch(gameBoard[x, y]);
@@ -301,8 +297,7 @@ public class boardController : board
 
 
     //Смешение тайла вниз
-    private void ShiftTileDown(int xPos, int yPos)
-    {
+    private void ShiftTileDown(int xPos, int yPos) {
         isShift = true; // Сейчас происходит процесс смещения поля вниз
         List<SpriteRenderer> cashRenderer = new List<SpriteRenderer>(); 
 
