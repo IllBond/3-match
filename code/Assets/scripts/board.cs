@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class board : MonoBehaviour
 {
-    public static board instance;
+    public static board instance_board;
 
     protected int xSize, ySize;
     protected TileClass tileGo;
     protected List<Sprite> tileSprite = new List<Sprite>();
 
     void Awake() {
-        instance = this;
+        instance_board = this;
     }
 
     public TileClass[,] SetValue(int xSize, int ySize, TileClass tileGo, List<Sprite> tileSprite) {

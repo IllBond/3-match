@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class gameManager : MonoBehaviour
 {
-    public static gameManager instance3;
+    public static gameManager instance_gameManager;
 
     [Header("Настройки игрового поля")]
     public TileClass tileGo;
@@ -17,13 +17,13 @@ public class gameManager : MonoBehaviour
 
     void Awake()
     {
-        instance3 = this;
+        instance_gameManager = this;
     }
 
 
     public void StartGame(int size) {
-        boardController.instance2.SetValue(
-               board.instance.SetValue(
+        boardController.instance_boardController.SetValue(
+               board.instance_board.SetValue(
                    size,
                    size,
                    tileGo,

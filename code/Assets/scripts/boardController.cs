@@ -4,24 +4,22 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-
-
-
 public class boardController : board
 {
-    public static boardController instance2;
-    protected TileClass[,] tileArray;
-    protected TileClass oldSelected;
-    protected Vector2[] dirRay;
+    public static boardController instance_boardController;
 
-    protected int score;
-    public Text scoreText;
-    //scoreText.text = "" + score;
+    protected TileClass[,] gameBoard; // Игровая доска с тайлами
+    protected TileClass oldSelected; // Тайл который мы выделяли преварительно
+    protected Vector2[] dirRay; // Направленияв которые луч будет проверять соседей
 
-    protected bool isFindMatch = false;
-    protected bool isShift = false;
-    protected bool isSearchEmptyTile = false;
-    protected bool isFive = false;
+    protected int score; // Очки
+    public Text scoreVal; // Значение очков
+
+   
+    protected bool isFindMatch = false; //Вспомогательная переменная -- Если состоялось уничтожение блоков
+    protected bool isShift = false; //Вспомогательная переменная -- Падают ли сейчас тайлы?
+    protected bool isSearchEmptyTile = false; //Вспомогательная переменная -- Поиск пустых тайлов
+    protected bool isFive = false; //Вспомогательная переменная -- Уничтожено 5 блоков? 
 
     public boardController(int xSize, int ySize, List<Sprite> tileSprite) {
         this.xSize = xSize;
@@ -31,16 +29,16 @@ public class boardController : board
 
     
 
-    public void SetValue(TileClass[,] tileArray, int xSize, int ySize, List<Sprite> tileSprite) {
-        this.tileArray = tileArray;
+    public void SetValue(TileClass[,] gameBoard, int xSize, int ySize, List<Sprite> tileSprite) {
+        this.gameBoard = gameBoard;
         this.xSize = xSize;
         this.ySize = ySize;
         this.tileSprite = tileSprite;
-} 
+    } 
 
 
     void Awake() {
-        instance2 = this;
+        instance_boardController = this;
     }
 
     void Start() {
@@ -55,8 +53,8 @@ public class boardController : board
         if (Input.GetMouseButtonDown(0)) {
             //В момент клика выпусает луч. При столкновении с коллайдером возвращает его
             RaycastHit2D ray = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-            if (ray != false)
-            {
+            //Если не нажато на пустое поле
+            if (ray != false) {
                 CheckSelectTile(ray.collider.gameObject.GetComponent<TileClass>()); 
             }
         }
@@ -98,12 +96,13 @@ public class boardController : board
                 SelectTile(tile);
             } else {
                 //::: делаем проверку. Свайп или снять выделение и выбрать другой тайл
-                //Contains - если в списке который вернет AdjacentTiles будет найден такой эе спрайт то свап ++
+                //AdjacentTiles - возврашает список тайлов вокруг выделенного
+                //Contains - если в списке который вернет AdjacentTiles будет. Свап произойет только если новый тайл есть в списке соседей
                 if (AdjacentTiles().Contains(tile))  {
                     //Делаем свап тайлов
                     SwapTwoTiles(tile);
-                    FinAllMatch(tile);
-                    FinAllMatch(tile);
+                    FinAllMatch(tile); // поиск на совпадение у текущего тайла
+                    FinAllMatch(oldSelected); // поиск на совпадение у предыдущего тайла
                     DeSelectTile(oldSelected);
                 } else {
                     DeSelectTile(oldSelected);
@@ -209,8 +208,8 @@ public class boardController : board
         if (isFive) {
            for (int x = 0; x < xSize; x++) {
                 for (int y = 0; y < ySize; y++) {
-                    if (tileArray[x, y].spriteRenderer.sprite == tile.spriteRenderer.sprite) {
-                        cashFindSprite.Add(tileArray[x, y]);
+                    if (gameBoard[x, y].spriteRenderer.sprite == tile.spriteRenderer.sprite) {
+                        cashFindSprite.Add(gameBoard[x, y]);
 
                         if (x == xSize-1 && y == ySize-1) {
 
@@ -278,7 +277,7 @@ public class boardController : board
 
                 //Если спрайта у тайла нет то смещаем тайл вниз и останавливаем цикл. Он продолжится дальше
                 //Передаем в функцию ShiftTileDown координаты тайла
-                if (tileArray[x,y].isEmpty) {
+                if (gameBoard[x,y].isEmpty) {
                     ShiftTileDown(x, y);
                     break;
                 }
@@ -295,7 +294,7 @@ public class boardController : board
         {
             for (int y = 0; y < ySize; y++)
             {
-                FinAllMatch(tileArray[x, y]);
+                FinAllMatch(gameBoard[x, y]);
             }
         }
     }
@@ -313,7 +312,7 @@ public class boardController : board
         //Продолжжем выполнение цикла. 
         for (int y = yPos; y < ySize; y++)  {
             
-            TileClass tile = tileArray[xPos, y];
+            TileClass tile = gameBoard[xPos, y];
             //Проверяяем есть ли пустые тайды выше
             //Если есть счетчик++
             if (tile.isEmpty) {
@@ -364,18 +363,18 @@ public class boardController : board
 
         //Проверяем что бы спрайт тайла не был таким же как справа
         if (xPos > 0) {
-            cashSprite.Remove(tileArray[xPos - 1, yPos].spriteRenderer.sprite);
+            cashSprite.Remove(gameBoard[xPos - 1, yPos].spriteRenderer.sprite);
         }
 
         //Проверяем что бы спрайт тайла не был таким же как слева
         if (xPos < xSize - 1) {
-            cashSprite.Remove(tileArray[xPos + 1, yPos].spriteRenderer.sprite);
+            cashSprite.Remove(gameBoard[xPos + 1, yPos].spriteRenderer.sprite);
         }
 
         //Проверяем что бы спрайт тайла не был таким же как снизу
         if (yPos > 0)
         {
-            cashSprite.Remove(tileArray[xPos, yPos-1].spriteRenderer.sprite);
+            cashSprite.Remove(gameBoard[xPos, yPos-1].spriteRenderer.sprite);
         }
 
         return cashSprite[Random.Range(0, cashSprite.Count)];
@@ -390,7 +389,7 @@ public class boardController : board
     {
 
         score = score + i;
-        scoreText.text = "" + score;
+        scoreVal.text = "" + score;
 
     }
 
