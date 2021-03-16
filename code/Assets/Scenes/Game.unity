@@ -1401,10 +1401,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a87cb8add099bc4f90c4929f62d1add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 0
-  ySize: 0
-  tileGo: {fileID: 2754941202987655495, guid: 9e749dcab7359b24abf248c1846a5935, type: 3}
-  tileSprite: []
 --- !u!4 &1660416964
 Transform:
   m_ObjectHideFlags: 0
@@ -1431,18 +1427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a91114886eec9341b3d08c00f8a81da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 0
-  ySize: 0
-  tileGo: {fileID: 2754941202987655495, guid: 9e749dcab7359b24abf248c1846a5935, type: 3}
-  tileSprite: []
-  oldSelected: {fileID: 0}
-  dirRay: []
-  score: 0
-  scoreText: {fileID: 175308816}
-  isFindMatch: 0
-  isShift: 0
-  isSearchEmptyTile: 0
-  isFive: 0
+  scoreVal: {fileID: 175308816}
 --- !u!1 &1894864371
 GameObject:
   m_ObjectHideFlags: 0
