@@ -7,9 +7,7 @@ public class SetBorder : MonoBehaviour
 {
     public GameSetting Setting;
 
-    //private Vector2 tileSize; // Общий размер тайла
-
-
+    // ВОзвращаем двумерный массив с доской
     public TileScript[,] CreateBoard(int sizeBorder, TileScript tileGo, List<Sprite> tileSprite)
     {
         TileScript[,] tileArray = new TileScript[sizeBorder, sizeBorder]; // Создаем массив sizeBorder * sizeBorder
@@ -26,22 +24,21 @@ public class SetBorder : MonoBehaviour
         {
             for (int y = 0; y < sizeBorder; y++)
             {
-                TileScript newTile = Instantiate(tileGo, transform.position, Quaternion.identity); // Вставить Тайл
-                //Изменить координат тайла
+                
+                TileScript newTile = Instantiate(tileGo, transform.position, Quaternion.identity); // Вставить Тайл на игровое поле
                 newTile.transform.position = new Vector3(
                     xPos + (Setting.tileSize.x * x) - sizeBorder * Setting.tileSize.x / 2 + Setting.tileSize.x / 2,
                     yPos + (Setting.tileSize.y * y) - sizeBorder * Setting.tileSize.y / 2 + Setting.tileSize.y / 2, 
-                    1);
-                newTile.transform.parent = transform; //Поместить тайл в родителя
+                    1); // Изменить координат тайла в массиве
+                newTile.transform.parent = transform; // Добавляем этому тайлу родителя                           
+                tileArray[x, y] = newTile; // Вставляем тайл в созданный массив
 
-                tileArray[x, y] = newTile; // в ранее созданный массив поместили тайл
-
-                // Список спрайтов, но их него исключен последний добавленый спрайт
+                // Список спрайтов
                 List<Sprite> tempSprite = new List<Sprite>();
-                tempSprite.AddRange(tileSprite);
-                tempSprite.Remove(cashSprite); // удаляем из списка возможных спрайтов тот который был, что бы не было 2 спрайта подряд
+                tempSprite.AddRange(tileSprite); // Тут храним список всех спрайтов
+                tempSprite.Remove(cashSprite); // Удаляем из списка возможных спрайтов тот который вставлялся ранее
 
-                // Список спрайтов, но из него исключен последний добавленый спрайт напротив (Если не самый нижний ряд)
+                // Если мы не в первом столбце то вставляем спрайт но исключаем тот который правее но в том же ряду
                 if (x > 0)
                 {
                     tempSprite.Remove(tileArray[x - 1, y].spriteRenderer.sprite);
@@ -49,10 +46,11 @@ public class SetBorder : MonoBehaviour
 
                 // Вставляем спрайт в тайл
                 newTile.spriteRenderer.sprite = tempSprite[Random.Range(0, tempSprite.Count)];
-                // В предыдущий переприсваиваем другой спрайт
+
+                // В cashSprite вставляем другой спрайт
                 cashSprite = newTile.spriteRenderer.sprite; 
             }
         }
-       return tileArray;
+       return tileArray; // возвращаем готовое игровое поле
     }
 }
