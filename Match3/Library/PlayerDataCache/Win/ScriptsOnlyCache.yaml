@@ -64,35 +64,35 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1486}
+      Script: {instanceID: 1488}
     - Class: 114
-      Script: {instanceID: 1754}
+      Script: {instanceID: 1756}
     - Class: 114
-      Script: {instanceID: 1766}
+      Script: {instanceID: 1768}
     - Class: 114
-      Script: {instanceID: 2070}
+      Script: {instanceID: 2072}
     - Class: 114
-      Script: {instanceID: 2434}
+      Script: {instanceID: 2436}
     - Class: 114
-      Script: {instanceID: 2550}
+      Script: {instanceID: 2552}
     - Class: 114
-      Script: {instanceID: 2582}
+      Script: {instanceID: 2584}
     - Class: 114
-      Script: {instanceID: 2750}
+      Script: {instanceID: 2752}
     - Class: 114
-      Script: {instanceID: 2960}
+      Script: {instanceID: 2962}
     - Class: 114
-      Script: {instanceID: 3062}
+      Script: {instanceID: 3064}
     - Class: 114
-      Script: {instanceID: 3150}
+      Script: {instanceID: 3152}
     - Class: 114
-      Script: {instanceID: 3934}
+      Script: {instanceID: 3936}
     - Class: 114
-      Script: {instanceID: 3988}
+      Script: {instanceID: 3990}
     - Class: 114
-      Script: {instanceID: 4586}
+      Script: {instanceID: 4588}
     - Class: 114
-      Script: {instanceID: 4660}
+      Script: {instanceID: 4662}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -679,4 +679,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/princ/Desktop/Match3.exe
+  playerPath: C:/Users/princ/match3_new/3-match/exe/Match3.exe

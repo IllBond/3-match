@@ -52,7 +52,7 @@ public class TileScript : MonoBehaviour
 
         if (isSwap)
         {
-            transform.position = Vector3.Lerp(transform.position, newPos, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, newPos, 0.04f);
 
             if (transform.position == newPos)
             {
@@ -71,7 +71,7 @@ public class TileScript : MonoBehaviour
 
         if (isSoftSize)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, newSize, 0.1f);
+            transform.localScale = Vector3.Lerp(transform.localScale, newSize, 0.04f);
 
             if (transform.localScale == newSize)
             {
